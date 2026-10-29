@@ -1,0 +1,532 @@
+/**
+ * Official Authentication Pages Stylesheet
+ * Companion Dashboard - Web Development Companion
+ * Theme: Light Sky Blue (#C6FCFF) + Pure White
+ */
+
+:root {
+  --primary: #0a8faa;
+  --primary-hover: #087a92;
+  --primary-light: #ebf9fa;
+  --accent: #14b8d4;
+  --accent-light: #cffafe;
+  --bg-page: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-subtle: #e2e8f0;
+  --border-focus: #0a8faa;
+  --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --danger-border: #fecaca;
+  --success: #16a34a;
+  --success-bg: #f0fdf4;
+  --success-border: #bbf7d0;
+  --radius: 10px;
+  --shadow-card: 0 16px 40px -10px rgba(10, 80, 100, 0.12), 0 4px 16px -2px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #f8fafc;
+  color: var(--text-main);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── DASHBOARD BACKDROP MOCKUP (Blurred Background) ───────────────── */
+.dashboard-backdrop-mockup {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: blur(8px) brightness(0.96);
+  -webkit-filter: blur(8px) brightness(0.96);
+  transform: scale(1.03);
+  display: flex;
+  background: linear-gradient(90deg, #ffffff 0%, #f4fbfe 35%, #ebf7fa 50%, #f4fbfe 65%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.mock-sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mock-logo {
+  height: 38px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  margin-bottom: 24px;
+}
+
+.mock-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 4px;
+}
+.mock-nav-item.active {
+  background: #ebf9fa;
+  color: #0a8faa;
+  font-weight: 700;
+}
+
+.mock-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+}
+
+.mock-topbar {
+  height: 48px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mock-content-body {
+  padding: 24px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mock-hero-quote {
+  font-size: 26px;
+  font-weight: 800;
+  color: #0e2632;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.mock-hero-sub {
+  font-size: 13px;
+  color: #475569;
+  text-align: center;
+}
+
+.mock-pipeline-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  height: 70px;
+}
+
+.mock-kpi-banner {
+  display: grid;
+  grid-template-columns: 240px repeat(4, 1fr);
+  gap: 16px;
+}
+
+.mock-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 3px solid #14b8d4;
+  border-radius: 12px;
+  height: 120px;
+}
+
+/* ─── AUTH PAGE OVERLAY (Frosted Glass Darkened Backdrop) ────────── */
+.auth-page-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(15, 38, 50, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.auth-page-container {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  position: relative;
+  z-index: 20;
+}
+
+/* Main card */
+.auth-card {
+  background: #ffffff;
+  border: 1px solid #c2ece8;
+  border-radius: 14px;
+  padding: 30px 28px;
+  box-shadow: 0 20px 48px -10px rgba(10, 80, 100, 0.28), 0 10px 24px -5px rgba(0, 0, 0, 0.12);
+  position: relative;
+  animation: authPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes authPopIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.auth-card-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  text-decoration: none;
+  font-size: 22px;
+  color: var(--text-muted);
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+.auth-card-close:hover {
+  background: #f1f5f9;
+  color: var(--text-main);
+}
+
+.auth-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.auth-header-avatar {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0a8faa 0%, #14b8d4 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(10, 143, 170, 0.25);
+}
+
+.auth-header-avatar.guest {
+  background: #e2e8f0;
+  color: #64748b;
+  box-shadow: none;
+}
+
+.auth-header-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.auth-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0e2632;
+  margin: 0 0 2px 0;
+}
+
+.auth-card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Alerts */
+.auth-alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  margin-bottom: 18px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.auth-alert[hidden] {
+  display: none !important;
+}
+.auth-alert.error {
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
+}
+.auth-alert.success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+/* Form controls */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.form-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+  height: 42px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0 13px;
+  font-size: 13.5px;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(10, 143, 170, 0.15);
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.btn-toggle-pw {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  user-select: none;
+}
+.btn-toggle-pw:hover {
+  color: var(--primary);
+}
+
+/* Submit buttons */
+.btn-submit {
+  width: 100%;
+  height: 44px;
+  background: var(--primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(10, 143, 170, 0.25);
+}
+.btn-submit:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(10, 143, 170, 0.32);
+}
+.btn-submit:active {
+  transform: translateY(0);
+}
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Quick test logins */
+.quick-sign-in-box {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px dashed #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quick-title {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.quick-chips {
+  display: flex;
+  gap: 6px;
+}
+
+.quick-chip {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quick-chip:hover {
+  background: var(--accent-light);
+  border-color: #a5f3fc;
+  color: #087a92;
+  transform: translateY(-1px);
+}
+
+/* Footer links */
+.auth-footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth-link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s;
+}
+.auth-link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.auth-back-link:hover {
+  color: var(--text-main);
+}
+
+/* ─── RESPONSIVE MEDIA QUERIES ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .mock-sidebar {
+    display: none;
+  }
+  .mock-content-body {
+    padding: 16px;
+  }
+  .mock-kpi-banner {
+    grid-template-columns: 1fr;
+  }
+  .auth-page-overlay {
+    padding: 14px 10px;
+    align-items: flex-start;
+  }
+  .auth-page-container {
+    margin: 12px auto;
+  }
+  .auth-card {
+    padding: 24px 18px;
+    border-radius: 12px;
+  }
+  .auth-card-title {
+    font-size: 16px;
+  }
+  .auth-header-avatar {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 20px 14px;
+    border-radius: 10px;
+  }
+  .form-input {
+    height: 40px;
+    font-size: 13px;
+  }
+  .btn-submit {
+    height: 42px;
+    font-size: 13.5px;
+  }
+  .quick-sign-in-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .quick-chips {
+    width: 100%;
+  }
+  .quick-chip {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+@media (max-height: 700px) {
+  .auth-page-overlay {
+    align-items: flex-start;
+  }
+  .auth-page-container {
+    margin: 10px auto;
+  }
+}
+
+

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Development Companion</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+            <path d="M7 8l3 3-3 3"/>
+            <line x1="12" y1="14" x2="16" y2="14"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Web Companion</h1>
+          <span class="brand-version">v1.0.0</span>
+        </div>
+      </div>
+      <button id="openDashboardBtn" class="icon-btn" title="Open Full Dashboard" aria-label="Open Full Dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Page Target Info -->
+    <section class="page-info-card">
+      <div class="page-title-row">
+        <span class="status-dot" id="pageStatusDot"></span>
+        <span class="page-title" id="pageTitle" title="Target Page">Detecting active page...</span>
+      </div>
+      <div class="page-url" id="pageUrl">--</div>
+    </section>
+
+    <!-- Scan Trigger / Action Section -->
+    <div class="action-section">
+      <button id="scanBtn" class="primary-scan-btn">
+        <span class="btn-spinner" id="btnSpinner" hidden></span>
+        <svg id="scanIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span id="scanBtnText">Scan Current Page</span>
+      </button>
+      <div class="progress-bar-container" id="progressBarContainer" hidden>
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+    </div>
+
+    <!-- Feedback / Alert Notice -->
+    <div id="noticeBox" class="notice-box" hidden></div>
+
+    <!-- Results Overview (populated after scan or from last scan) -->
+    <section id="resultsSection" class="results-section" hidden>
+      <div class="section-heading">
+        <h2>Latest Scan Summary</h2>
+        <span class="scan-time" id="scanTimestamp"></span>
+      </div>
+
+      <!-- Severity Badges Grid -->
+      <div class="severity-grid">
+        <div class="sev-card sev-critical">
+          <span class="sev-count" id="countCritical">0</span>
+          <span class="sev-label">Critical</span>
+        </div>
+        <div class="sev-card sev-high">
+          <span class="sev-count" id="countHigh">0</span>
+          <span class="sev-label">High</span>
+        </div>
+        <div class="sev-card sev-medium">
+          <span class="sev-count" id="countMedium">0</span>
+          <span class="sev-label">Medium</span>
+        </div>
+        <div class="sev-card sev-low">
+          <span class="sev-count" id="countLow">0</span>
+          <span class="sev-label">Low</span>
+        </div>
+      </div>
+
+      <!-- Category Breakdown List -->
+      <div class="categories-list" id="categoriesList">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- Footer Controls -->
+    <footer class="popup-footer">
+      <button id="viewDashboardFullBtn" class="footer-btn primary-footer-btn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        View in Dashboard
+      </button>
+      <button id="exportQuickBtn" class="footer-btn secondary-footer-btn" title="Export as JSON">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Export
+      </button>
+    </footer>
+  </div>
+
+  <script src="../shared/messages.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

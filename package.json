@@ -1,0 +1,20 @@
+{
+  "name": "cross-browser-web-companion",
+  "version": "1.0.0",
+  "description": "Cross-browser web development analysis companion and dashboard",
+  "main": "background/service-worker.js",
+  "scripts": {
+    "test": "node tests/run_all_tests.js",
+    "generate-icons": "node assets/icons/generate_icons.js"
+  },
+  "keywords": [
+    "browser-extension",
+    "web-development",
+    "accessibility",
+    "security",
+    "performance",
+    "diagnostics"
+  ],
+  "author": "Web Development Companion",
+  "license": "MIT"
+}

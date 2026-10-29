@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a2e1f">
+  <meta name="description" content="Web Development Companion — A developer-grade page auditing dashboard for accessibility, security, performance, and code quality.">
+  <title>Web Development Companion — Developer Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <div class="dashboard-app">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SIDEBAR NAVIGATION
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="sidebar" id="mainSidebar">
+
+      <!-- Brand -->
+      <div class="sidebar-header">
+        <img src="../assets/logo.png" alt="Web Companion Dashboard" class="brand-full-logo">
+      </div>
+
+      <!-- Workspace label -->
+      <div class="sidebar-workspace-label">Your Workspace</div>
+
+      <!-- Navigation -->
+      <nav class="nav-menu" role="navigation" aria-label="Dashboard Navigation">
+
+        <button class="nav-item active" data-tab="tab-overview" id="navOverview" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+          </svg>
+          Overview
+        </button>
+
+        <button class="nav-item" data-tab="tab-findings" id="navFindings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Diagnostics &amp; Fixes
+          <span class="nav-badge" id="navFindingsCount">0</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-security" id="navSecurity">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Security Checklist
+        </button>
+
+        <button class="nav-item" data-tab="tab-history" id="navHistory">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Scan History &amp; Diff
+        </button>
+
+        <button class="nav-item" data-tab="tab-settings" id="navSettings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          Settings &amp; Rules
+        </button>
+
+      </nav>
+
+      <!-- Scan Target & URL Hub -->
+      <div class="sidebar-footer">
+        <div class="scan-target-box">
+          <div class="target-box-header">
+            <span class="target-label">Audit Target</span>
+            <span class="scan-status-pill" id="sidebarStatusPill">Ready</span>
+          </div>
+
+          <!-- URL Input for any website/dashboard link -->
+          <div class="target-input-row">
+            <input type="url" id="customUrlInput" class="target-input" placeholder="Enter link to scan..." title="Paste any URL to audit">
+            <button id="scanUrlBtn" class="target-go-btn" title="Scan entered URL">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- File upload for local HTML files -->
+          <div class="target-file-row">
+            <label for="htmlFileInput" class="file-upload-link" title="Upload local HTML file or dashboard to audit">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              Upload HTML file
+            </label>
+            <input type="file" id="htmlFileInput" accept=".html,.htm" style="display:none">
+          </div>
+
+          <!-- Active scan metadata -->
+          <div class="target-meta-info">
+            <div class="target-url" id="sidebarTargetUrl" title="No active scan">No active scan</div>
+            <div class="target-time" id="sidebarTargetTime">—</div>
+          </div>
+        </div>
+
+        <button id="rescanBtn" class="rescan-btn" title="Scan current open browser tab">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M23 4v6h-6"/>
+            <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+          </svg>
+          Scan Active Tab
+        </button>
+      </div>
+
+      <!-- User row with Login / Register / Profile capabilities -->
+      <div class="sidebar-user-row" id="sidebarUserRow" title="Click to manage account or sign in/out">
+        <div class="user-avatar" id="sidebarUserAvatar" aria-hidden="true">D</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebarUserName">Developer</div>
+          <div class="user-role" id="sidebarUserRole">Your workspace</div>
+        </div>
+        <button id="sidebarAuthActionBtn" class="sidebar-auth-action-btn" title="Manage Account / Sign Out" aria-label="Account options">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Mobile Drawer Backdrop Overlay -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN CONTENT AREA
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- Top Bar -->
+      <header class="top-bar" role="banner">
+        <div class="page-meta-row">
+          <button id="topBackBtn" class="arrow-back-btn" title="Back to Overview" aria-label="Go back" hidden>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <div class="page-meta">
+            <h2 class="target-title" id="pageMetaTitle">Page Analysis Dashboard</h2>
+            <span class="target-full-url" id="pageMetaUrl">Select or perform a scan to inspect findings</span>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <!-- Quick URL Scan bar -->
+          <div class="top-scan-bar">
+            <input type="url" id="topUrlInput" class="top-scan-input" placeholder="Paste link to audit (https://...)" title="Paste any URL to scan">
+            <button id="topScanBtn" class="btn btn-primary top-scan-btn" title="Scan this link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              Scan
+            </button>
+          </div>
+
+          <!-- Sidebar Toggle -->
+          <button id="sidebarToggleBtn" aria-label="Toggle sidebar" title="Toggle Sidebar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+
+          <button id="loadDemoBtn" class="btn btn-secondary" title="Load sample page scan data">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Load Demo
+          </button>
+
+          <!-- Export dropdown -->
+          <div class="dropdown">
+            <button id="exportDropdownBtn" class="btn btn-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export
+            </button>
+            <div id="exportMenu" class="dropdown-menu" hidden>
+              <button class="dropdown-item" data-export="json">Export as JSON</button>
+              <button class="dropdown-item" data-export="markdown">Export as Markdown (.md)</button>
+              <button class="dropdown-item" data-export="csv">Export as CSV</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Status Banner -->
+      <div id="statusBanner" class="status-banner" hidden role="alert"></div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB 1: OVERVIEW
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-overview" class="tab-pane active" aria-labelledby="navOverview">
+
+        <!-- Overview Hero / Quote Section -->
+        <div class="overview-hero-section">
+          <h1 class="overview-hero-quote">Better web experiences start here.</h1>
+          <p class="overview-hero-sub">Automated diagnostics, accessibility standards, and code remediation — backed by real audits.</p>
+        </div>
+
+        <!-- Pipeline / Workflow Card -->
+        <div class="pipeline-card">
+          <div class="pipeline-header">
+            <span class="pipeline-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              Audit Pipeline
+            </span>
+            <span class="pipeline-badge">Evidence → Action</span>
+          </div>
+          <div class="pipeline-steps">
+            <div class="pipeline-step">
+              <span class="step-num">01</span>
+              <div class="step-info">
+                <div class="step-label">Page Scan</div>
+                <div class="step-sub">Collect raw data</div>
+              </div>
+            </div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step">
+              <span class="step-num">02</span>
+              <div class="step-info">
+                <div class="step-label">Diagnostic Analysis</div>
+                <div class="step-sub">Gap mapping</div>
+              </div>
+            </div>
+            <span class="pipeline-arrow">→</span>
+            <div class="pipeline-step active-step">
+              <span class="step-num">03</span>
+              <div class="step-info">
+                <div class="step-label">Remediation</div>
+                <div class="step-sub">Fix priority gaps</div>
+              </div>
+              <button class="next-move-btn">Next Move →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI Banner -->
+        <div class="kpi-banner">
+          <!-- Health Score -->
+          <div class="score-card">
+            <div class="score-ring-container" id="scoreRing">
+              <div class="score-value" id="healthScoreValue">100</div>
+              <div class="score-label">Health Score</div>
+            </div>
+            <div class="score-description" id="healthScoreDesc"></div>
+          </div>
+
+          <!-- Severity Grid -->
+          <div class="severity-stat-grid">
+            <div class="stat-box crit">
+              <div class="stat-number" id="kpiCritical">0</div>
+              <div class="stat-title">Critical Issues</div>
+              <div class="stat-sub">Immediate action</div>
+            </div>
+            <div class="stat-box high">
+              <div class="stat-number" id="kpiHigh">0</div>
+              <div class="stat-title">High Priority</div>
+              <div class="stat-sub">Major defects</div>
+            </div>
+            <div class="stat-box med">
+              <div class="stat-number" id="kpiMedium">0</div>
+              <div class="stat-title">Medium</div>
+              <div class="stat-sub">Optimisation</div>
+            </div>
+            <div class="stat-box low">
+              <div class="stat-number" id="kpiLow">0</div>
+              <div class="stat-title">Low / Info</div>
+              <div class="stat-sub">Best practices</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Cards -->
+        <h3 class="section-title">Analysis by Technical Category</h3>
+        <div class="category-cards-grid" id="categoryCardsGrid">
+          <!-- Generated dynamically -->
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="highlights-row">
+          <div class="highlight-card card">
+            <h4>Performance Quick Stats</h4>
+            <div id="perfQuickStats" class="stat-pill-list">
+              <span class="empty-state">No performance data available.</span>
+            </div>
+          </div>
+          <div class="highlight-card card">
+            <h4>Page Architecture</h4>
+            <div id="archQuickStats" class="stat-pill-list">
+              <span class="empty-state">No structural data available.</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB 2: FINDINGS EXPLORER & REMEDIATION
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-findings" class="tab-pane" aria-labelledby="navFindings">
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar">
+          <div class="search-input-wrapper">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="findingsSearch" placeholder="Search by rule, element, or keyword…" aria-label="Search findings">
+          </div>
+
+          <div class="filter-group">
+            <label for="filterCategory">Category:</label>
+            <select id="filterCategory" aria-label="Filter by category">
+              <option value="all">All Categories</option>
+              <option value="accessibility">Accessibility</option>
+              <option value="security">Security</option>
+              <option value="performance">Performance</option>
+              <option value="structure">Structure &amp; Headings</option>
+              <option value="forms">Forms &amp; Inputs</option>
+              <option value="links">Links &amp; URLs</option>
+              <option value="images">Images &amp; Media</option>
+              <option value="scripts">Scripts &amp; CDNs</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterSeverity">Severity:</label>
+            <select id="filterSeverity" aria-label="Filter by severity">
+              <option value="all">All Severities</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+              <option value="info">Info</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Findings List -->
+        <div class="findings-container" id="findingsList" role="list">
+          <!-- Populated dynamically -->
+        </div>
+
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB 3: SECURITY CHECKLIST
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-security" class="tab-pane" aria-labelledby="navSecurity">
+
+        <div class="checklist-header">
+          <div>
+            <h3 class="section-title">Web Security Baseline Checklist</h3>
+            <p class="section-desc">20 critical client and server security considerations, with verified browser capabilities and constraints.</p>
+          </div>
+          <div class="checklist-legend">
+            <span class="badge status-finding_detected">Finding Detected</span>
+            <span class="badge status-requires_manual_review">Manual Review</span>
+            <span class="badge status-requires_backend_access">Backend Required</span>
+            <span class="badge status-not_supported">Not Client-Side</span>
+          </div>
+        </div>
+
+        <div class="checklist-grid" id="securityChecklistContainer">
+          <!-- Injected dynamically -->
+        </div>
+
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB 4: SCAN HISTORY & COMPARISON
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-history" class="tab-pane" aria-labelledby="navHistory">
+
+        <div class="history-header">
+          <div class="history-actions">
+            <button id="compareSelectedBtn" class="btn btn-primary" disabled>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 3 21 3 21 8"/>
+                <line x1="4" y1="20" x2="21" y2="3"/>
+                <polyline points="21 16 21 21 16 21"/>
+                <line x1="15" y1="15" x2="21" y2="21"/>
+                <line x1="4" y1="4" x2="9" y2="9"/>
+              </svg>
+              Compare Selected (Select 2)
+            </button>
+            <button id="clearHistoryBtn" class="btn btn-danger">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+              </svg>
+              Clear All History
+            </button>
+          </div>
+        </div>
+
+        <!-- Diff View -->
+        <div id="diffViewContainer" class="diff-container" hidden role="region" aria-label="Scan comparison diff">
+          <div class="diff-header">
+            <h4>Scan Comparison Diff</h4>
+            <button id="closeDiffBtn" class="btn-text">Close Diff</button>
+          </div>
+          <div id="diffContent"></div>
+        </div>
+
+        <!-- History Table -->
+        <div class="table-container" role="region" aria-label="Scan history table">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th style="width:40px"><input type="checkbox" id="selectAllHistory" disabled aria-label="Select all scans"></th>
+                <th>Timestamp</th>
+                <th>Page Title &amp; URL</th>
+                <th>Health Score</th>
+                <th>Total Issues</th>
+                <th>Critical / High</th>
+                <th style="width:130px">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB 5: SETTINGS & RULES
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-settings" class="tab-pane" aria-labelledby="navSettings">
+
+        <div class="settings-header">
+          <div>
+            <h3 class="section-title">Settings &amp; Diagnostic Rules</h3>
+            <p class="section-desc">Customize auditing rules, scoring thresholds, and manage your local data privacy.</p>
+          </div>
+          <div class="settings-header-actions">
+            <button id="resetSettingsBtn" class="btn btn-secondary">Restore Defaults</button>
+            <button id="saveSettingsBtn" class="btn btn-accent">Save Changes</button>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+
+          <!-- General Preferences -->
+          <div class="card settings-card">
+            <h4 class="card-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+              General Preferences
+            </h4>
+
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label for="settingMaxHistory" class="setting-label">Maximum Scan History</label>
+                <span class="setting-hint">Caps the number of persistent scans stored locally.</span>
+              </div>
+              <select id="settingMaxHistory" class="form-select">
+                <option value="25">25 Scans</option>
+                <option value="50">50 Scans</option>
+                <option value="100" selected>100 Scans (Recommended)</option>
+                <option value="250">250 Scans</option>
+              </select>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label class="setting-label">Link Health Checks</label>
+                <span class="setting-hint">Inspect internal anchor fragments and broken link references.</span>
+              </div>
+              <label class="switch" aria-label="Enable link health checks">
+                <input type="checkbox" id="settingLinkCheckEnabled" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label for="settingLinkTimeout" class="setting-label">Link Audit Timeout (ms)</label>
+                <span class="setting-hint">Maximum wait time when resolving slow navigation queries.</span>
+              </div>
+              <input type="number" id="settingLinkTimeout" class="form-input" min="1000" max="30000" step="1000" value="8000" aria-label="Link audit timeout in milliseconds">
+            </div>
+          </div>
+
+          <!-- Scoring Weights -->
+          <div class="card settings-card">
+            <h4 class="card-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              Health Score Defect Weights
+            </h4>
+            <p class="setting-hint" style="margin-bottom:16px">Overall Page Health Score (0–100) is deducted based on finding severity density.</p>
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label for="weightCritical" class="setting-label" style="color:var(--crit-color)">Critical Defect Penalty</label>
+                <span class="setting-hint">Score points deducted per critical issue detected.</span>
+              </div>
+              <input type="number" id="weightCritical" class="form-input" min="5" max="50" value="25" aria-label="Critical defect penalty">
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label for="weightHigh" class="setting-label" style="color:var(--high-color)">High Priority Penalty</label>
+                <span class="setting-hint">Score points deducted per high priority issue detected.</span>
+              </div>
+              <input type="number" id="weightHigh" class="form-input" min="2" max="30" value="10" aria-label="High priority penalty">
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-text">
+                <label for="weightMedium" class="setting-label" style="color:var(--med-color)">Medium Priority Penalty</label>
+                <span class="setting-hint">Score points deducted per medium issue detected.</span>
+              </div>
+              <input type="number" id="weightMedium" class="form-input" min="1" max="15" value="4" aria-label="Medium priority penalty">
+            </div>
+          </div>
+
+          <!-- Active Diagnostic Categories -->
+          <div class="card settings-card full-width">
+            <h4 class="card-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+              Active Diagnostic Categories
+            </h4>
+            <p class="setting-hint" style="margin-bottom:14px">Enable or disable inspection rules per technical domain:</p>
+
+            <div class="rules-toggle-grid">
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatAccessibility" checked>
+                <div>
+                  <div class="rule-cb-title">Accessibility (a11y)</div>
+                  <div class="rule-cb-desc">WCAG 2.1 AA contrasts, missing alt tags, aria associations</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatSecurity" checked>
+                <div>
+                  <div class="rule-cb-title">Security &amp; Integrity</div>
+                  <div class="rule-cb-desc">HTTP form actions, token leaks, target="_blank" window opener</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatPerformance" checked>
+                <div>
+                  <div class="rule-cb-title">Performance</div>
+                  <div class="rule-cb-desc">Navigation Timing breakdown, DOM element counts, resource metrics</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatStructure" checked>
+                <div>
+                  <div class="rule-cb-title">Structure &amp; Headings</div>
+                  <div class="rule-cb-desc">H1-H6 outline hierarchy, semantic HTML5 landmarks</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatForms" checked>
+                <div>
+                  <div class="rule-cb-title">Forms &amp; Inputs</div>
+                  <div class="rule-cb-desc">Missing submit buttons, unlabelled inputs, password autocomplete</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatLinks" checked>
+                <div>
+                  <div class="rule-cb-title">Links &amp; URLs</div>
+                  <div class="rule-cb-desc">Internal anchors, missing hrefs, external insecure links</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatImages" checked>
+                <div>
+                  <div class="rule-cb-title">Images &amp; Media</div>
+                  <div class="rule-cb-desc">Missing alt text, dimensions, responsive attributes</div>
+                </div>
+              </label>
+              <label class="rule-checkbox-card">
+                <input type="checkbox" id="ruleCatScripts" checked>
+                <div>
+                  <div class="rule-cb-title">Scripts &amp; CDNs</div>
+                  <div class="rule-cb-desc">Script counts, external CDNs, async/defer attribute presence</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Storage & Privacy -->
+          <div class="card settings-card full-width">
+            <h4 class="card-heading">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              Local Storage &amp; Privacy
+            </h4>
+
+            <div class="privacy-banner">
+              <div class="privacy-badge">100% Client‑Side</div>
+              <p>Web Development Companion operates strictly inside your browser. No telemetry, user inputs, cookies, or scanned code are ever transmitted to any external server or third-party service.</p>
+            </div>
+
+            <div class="storage-stats-row">
+              <div class="storage-stat-pill">
+                <span class="storage-stat-label">Stored Scans:</span>
+                <span class="storage-stat-val" id="storageScanCount">0</span>
+              </div>
+              <div class="storage-stat-pill">
+                <span class="storage-stat-label">Storage Used:</span>
+                <span class="storage-stat-val" id="storageBytesUsed">0 KB</span>
+              </div>
+              <div class="storage-stat-pill">
+                <span class="storage-stat-label">Engine:</span>
+                <span class="storage-stat-val" id="storageEngineType">chrome.storage.local</span>
+              </div>
+            </div>
+
+            <div class="storage-actions-row">
+              <button id="exportAllHistoryBtn" class="btn btn-secondary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Export Complete History (JSON)
+              </button>
+              <button id="clearAllHistoryFromSettingsBtn" class="btn btn-danger">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                </svg>
+                Wipe Local History Data
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div><!-- /.dashboard-app -->
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       USER AUTHENTICATION & ACCOUNT MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div id="authModal" class="auth-modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
+    <div class="auth-modal-card">
+      <button id="authModalCloseBtn" class="auth-modal-close" aria-label="Close modal">&times;</button>
+
+      <!-- View 1: When user is logged in (Profile & Signout) -->
+      <div id="authProfileView">
+        <div class="auth-modal-header">
+          <div class="profile-big-avatar" id="authProfileAvatar">D</div>
+          <div class="profile-header-meta">
+            <h3 id="authModalHeading" class="auth-modal-title">Account Profile</h3>
+            <p class="auth-modal-sub" id="authProfileEmail">dev@companion.local</p>
+          </div>
+        </div>
+
+        <div class="auth-profile-details">
+          <div class="auth-detail-row">
+            <span class="auth-detail-label">Name</span>
+            <span class="auth-detail-value" id="authProfileName">Developer</span>
+          </div>
+          <div class="auth-detail-row">
+            <span class="auth-detail-label">Workspace / Role</span>
+            <span class="auth-detail-value" id="authProfileRole">Your workspace</span>
+          </div>
+          <div class="auth-detail-row">
+            <span class="auth-detail-label">Vault Isolation</span>
+            <span class="auth-detail-value badge-vault">Isolated Local Vault</span>
+          </div>
+          <div class="auth-detail-row">
+            <span class="auth-detail-label">Saved Scans</span>
+            <span class="auth-detail-value" id="authProfileScanCount">0 Scans</span>
+          </div>
+        </div>
+
+        <div class="auth-modal-footer">
+          <button id="authSignoutBtn" class="btn btn-danger-action" style="width: 100%; justify-content: center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Sign Out
+          </button>
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button type="button" id="modalSwitchLoginBtn" class="btn btn-secondary" style="flex: 1; justify-content: center; font-size: 11.5px;">
+              Sign In
+            </button>
+            <button type="button" id="modalSwitchRegisterBtn" class="btn btn-secondary" style="flex: 1; justify-content: center; font-size: 11.5px;">
+              Create Account
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View 2: When user is logged out or switching (Login / Register Tabs) -->
+      <div id="authFormsView" hidden>
+        <div class="auth-modal-header" style="margin-bottom: 14px;">
+          <div class="profile-big-avatar guest" id="authGuestAvatar">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="profile-header-meta">
+            <h3 class="auth-modal-title">Sign In to Workspace</h3>
+            <p class="auth-modal-sub">Persistent scans & custom audit history</p>
+          </div>
+        </div>
+
+        <div class="auth-tabs">
+          <button id="authTabLogin" class="auth-tab active" type="button">Sign In</button>
+          <button id="authTabRegister" class="auth-tab" type="button">Create Account</button>
+        </div>
+
+        <div id="authAlert" class="auth-alert" hidden></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form-body">
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">
+            <span style="color: var(--danger); font-weight: 700;">*</span> All sections are compulsory
+          </div>
+          <div class="form-group">
+            <label for="loginIdentifier" class="form-label">
+              Email or Username <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="text" id="loginIdentifier" class="form-input" placeholder="Enter your email or username" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="loginPassword" class="form-label">
+              Password <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 9px; font-weight: 600;">
+            Sign In
+          </button>
+
+          <!-- Quick Sign In Shortcuts for Fast Testing -->
+          <div class="auth-quick-select">
+            <span class="quick-title">Quick Sign In:</span>
+            <div class="quick-chips">
+              <button type="button" class="quick-chip-btn" data-user="Developer">Developer</button>
+              <button type="button" class="quick-chip-btn" data-user="Aditya">Aditya</button>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 10px; font-size: 11.5px; border-top: 1px dashed var(--border-subtle); padding-top: 10px;">
+            <a href="login.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+              Open Dedicated Official Sign In Page ↗
+            </a>
+          </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form-body" hidden>
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">
+            <span style="color: var(--danger); font-weight: 700;">*</span> All sections are compulsory
+          </div>
+          <div class="form-group">
+            <label for="registerName" class="form-label">
+              Full Name <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="text" id="registerName" class="form-input" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail" class="form-label">
+              Email Address <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email address" required>
+          </div>
+          <div class="form-group">
+            <label for="registerRole" class="form-label">
+              Workspace Title or Role <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="text" id="registerRole" class="form-input" placeholder="Enter your workspace title or role" required>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword" class="form-label">
+              Password <span style="color: var(--danger); font-weight: 700;">*</span>
+            </label>
+            <input type="password" id="registerPassword" class="form-input" placeholder="Enter your password (min 4 characters)" minlength="4" required>
+          </div>
+          <button type="submit" class="btn btn-accent" style="width: 100%; justify-content: center; padding: 9px; font-weight: 600;">
+            Create Account & Sign In
+          </button>
+
+          <div style="text-align: center; margin-top: 10px; font-size: 11.5px; border-top: 1px dashed var(--border-subtle); padding-top: 10px;">
+            <a href="register.html" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+              Open Dedicated Official Registration Page ↗
+            </a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="../shared/messages.js"></script>
+  <script src="../shared/utils.js"></script>
+  <script src="../storage/storage.js"></script>
+  <script src="../diagnostics/fixSuggestions.js"></script>
+  <script src="../diagnostics/diagnosticEngine.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+
+</html>

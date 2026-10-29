@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Development Companion</title>
   <link rel="stylesheet" href="popup.css">
 </head>
+
 <body>
   <div class="popup-container">
     <!-- Header -->
     <header class="popup-header">
       <div class="brand">
-        <img src="../assets/logo.png" alt="Web Companion Dashboard" class="brand-popup-logo" onerror="this.style.display='none'">
+        <img src="../assets/logo.png" alt="Web Companion Dashboard" class="brand-popup-logo"
+          onerror="this.style.display='none'">
         <span class="brand-version">v1.0.0</span>
       </div>
       <button id="openDashboardBtn" class="icon-btn" title="Open Full Dashboard" aria-label="Open Full Dashboard">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-          <polyline points="15 3 21 3 21 9"/>
-          <line x1="10" y1="14" x2="21" y2="3"/>
+          <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
         </svg>
       </button>
     </header>
@@ -36,10 +39,11 @@
     <div class="action-section">
       <button id="scanBtn" class="primary-scan-btn">
         <span class="btn-spinner" id="btnSpinner" hidden></span>
-        <svg id="scanIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        <svg id="scanIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
         <span id="scanBtnText">Scan Current Page</span>
       </button>
@@ -88,18 +92,18 @@
     <footer class="popup-footer">
       <button id="viewDashboardFullBtn" class="footer-btn primary-footer-btn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
         </svg>
         View in Dashboard
       </button>
       <button id="exportQuickBtn" class="footer-btn secondary-footer-btn" title="Export as JSON">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
         </svg>
         Export
       </button>
@@ -110,4 +114,5 @@
   <script src="../shared/utils.js"></script>
   <script src="popup.js"></script>
 </body>
+
 </html>

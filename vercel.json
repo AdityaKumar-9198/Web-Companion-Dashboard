@@ -6,3 +6,4 @@
     { "source": "/register", "destination": "/auth/register.html" }
   ]
 }
+

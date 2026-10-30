@@ -2077,7 +2077,7 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
 
 /* Tablets (Portrait) & Mobile Devices (<= 768px) */
 @media (max-width: 768px) {
-  /* Mobile Off-Canvas Drawer Navigation */
+  /* ── Mobile Off-Canvas Drawer Sidebar ─────────────────────────────── */
   .sidebar-backdrop {
     display: block;
     position: fixed;
@@ -2121,54 +2121,108 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     transform: translateX(0);
   }
 
-  /* Top Bar Adaptation */
+  /* ── Main Content — full width when sidebar is off-canvas ─────────── */
+  .main-content {
+    width: 100%;
+    max-height: 100vh;
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ── Top Bar — Two-row layout on mobile ────────────────────────────── */
   .top-bar {
-    padding: 10px 14px;
+    padding: 8px 12px;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
     position: sticky;
     top: 0;
     z-index: 20;
+    align-items: center;
   }
+
+  /* Row 1: Hamburger + Page title takes remaining space */
+  .page-meta-row {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 48px);
+  }
+  #sidebarToggleBtn {
+    order: -1;
+    flex-shrink: 0;
+  }
+
   .page-meta {
     flex: 1 1 auto;
-    min-width: 120px;
+    min-width: 0;
   }
   .target-title {
-    font-size: 13px;
-  }
-  .target-full-url {
-    max-width: 200px;
+    font-size: 12.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .target-full-url {
+    font-size: 9px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  /* Row 2: Load Demo + Export collapse to icon-only buttons on mobile */
   .top-actions {
     display: flex;
     align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .top-scan-bar {
-    order: 3;
+    gap: 5px;
+    flex-wrap: nowrap;
     width: 100%;
-    margin-top: 2px;
+    order: 3;
+  }
+  /* Hide text labels in Load Demo & Export on mobile to save space */
+  #loadDemoBtn .btn-label-text,
+  #exportDropdownBtn .btn-label-text {
+    display: none;
+  }
+  /* Make Load Demo & Export buttons icon-only on mobile */
+  #loadDemoBtn,
+  #exportDropdownBtn {
+    padding: 6px 8px;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  /* Row 2 URL scan bar — fills remaining width */
+  .top-scan-bar {
+    flex: 1;
+    min-width: 0;
+    order: 1;
   }
   .top-scan-input {
     flex: 1;
-    width: 100%;
+    width: auto;
+    min-width: 0;
+    font-size: 11px;
+  }
+  .top-scan-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
-  /* Main Panes */
-  .main-content {
-    width: 100%;
-    max-height: 100vh;
+  /* Status banner text wrapping */
+  #statusBanner {
+    font-size: 11px;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+    gap: 4px;
   }
+
+  /* ── Tab Pane Padding ──────────────────────────────────────────────── */
   .tab-pane {
-    padding: 14px 14px 36px;
+    padding: 12px 12px 40px;
   }
 
-  /* Overview */
+  /* ── Overview ─────────────────────────────────────────────────────── */
   .overview-hero-section {
     padding: 8px 12px 14px;
   }
@@ -2183,7 +2237,7 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     padding: 14px;
   }
 
-  /* Diagnostics & Findings */
+  /* ── Diagnostics & Findings ────────────────────────────────────────── */
   .filter-toolbar {
     flex-direction: column;
     align-items: stretch;
@@ -2198,13 +2252,48 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
+  }
+  .filter-group label {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .filter-group select {
     flex: 1;
     max-width: none;
+    min-width: 0;
   }
 
-  /* Security Checklist */
+  /* Code blocks — prevent overflow on mobile */
+  .code-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 11px;
+    padding: 10px 12px;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .copy-btn {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 6px;
+    float: right;
+  }
+
+  /* Finding cards */
+  .finding-card {
+    padding: 12px;
+  }
+  .finding-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .finding-severity-badges {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* ── Security Checklist ────────────────────────────────────────────── */
   .checklist-header {
     flex-direction: column;
     align-items: flex-start;
@@ -2218,7 +2307,7 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     grid-template-columns: 1fr;
   }
 
-  /* History Table with Touch Scroll */
+  /* ── History Table ─────────────────────────────────────────────────── */
   .history-header {
     flex-direction: column;
     align-items: stretch;
@@ -2240,10 +2329,10 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     border-radius: var(--radius-sm);
   }
   .history-table {
-    min-width: 620px;
+    min-width: 600px;
   }
 
-  /* Settings */
+  /* ── Settings ──────────────────────────────────────────────────────── */
   .settings-header {
     flex-direction: column;
     align-items: stretch;
@@ -2273,7 +2362,7 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     justify-content: center;
   }
 
-  /* Modal */
+  /* ── Auth Modal ────────────────────────────────────────────────────── */
   .auth-modal-card {
     width: 100%;
     max-width: 95vw;
@@ -2285,23 +2374,57 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
 /* Small Smart Phones & Compact Displays (<= 480px) */
 @media (max-width: 480px) {
   .top-bar {
-    padding: 8px 10px;
+    padding: 6px 10px;
+    gap: 5px;
+  }
+  /* Keep hamburger always visible and prominent */
+  #sidebarToggleBtn {
+    padding: 7px 9px;
+    flex-shrink: 0;
   }
   .target-title {
     font-size: 12px;
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .target-full-url {
-    max-width: 160px;
+    font-size: 9px;
+    max-width: 140px;
   }
   .btn {
-    padding: 5px 9px;
+    padding: 5px 8px;
     font-size: 11px;
   }
+  /* Icon-only for action buttons on tiny screens */
+  #loadDemoBtn span,
+  #exportDropdownBtn span {
+    display: none;
+  }
+  #loadDemoBtn svg,
+  #exportDropdownBtn svg {
+    margin: 0;
+  }
+
+  /* Full-width scan bar */
+  .top-scan-bar {
+    flex: 1;
+    min-width: 0;
+    padding: 3px 4px 3px 8px;
+  }
+  .top-scan-input {
+    min-width: 0;
+    width: 0;
+    flex: 1;
+    font-size: 10px;
+  }
+
   .tab-pane {
     padding: 10px 10px 32px;
   }
   .overview-hero-quote {
-    font-size: 18px;
+    font-size: 17px;
   }
   .overview-hero-sub {
     font-size: 11px;
@@ -2340,6 +2463,8 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .category-card {
     padding: 12px 14px;
   }
+
+  /* Findings */
   .finding-header {
     flex-direction: column;
     align-items: flex-start;
@@ -2347,6 +2472,7 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   }
   .finding-title {
     font-size: 13px;
+    line-height: 1.4;
   }
   .finding-actions {
     flex-direction: column;
@@ -2358,6 +2484,27 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     width: 100%;
     justify-content: center;
   }
+
+  /* Code blocks: wrap & scroll on small screens */
+  .code-container {
+    font-size: 10.5px;
+    padding: 8px 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: pre;
+    word-break: normal;
+    max-width: 100%;
+  }
+  .copy-btn {
+    font-size: 9.5px;
+    padding: 3px 6px;
+    position: static;
+    float: right;
+    margin-bottom: 6px;
+    display: inline-flex;
+  }
+
+  /* Auth */
   .auth-detail-row {
     font-size: 11px;
   }
@@ -2371,6 +2518,35 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .quick-chips {
     flex-wrap: wrap;
   }
+
+  /* Status banner */
+  #statusBanner {
+    font-size: 10px;
+    padding: 5px 10px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  #statusBanner .btn {
+    font-size: 10px;
+    padding: 3px 7px;
+  }
+
+  /* Filter toolbar compact */
+  .filter-toolbar {
+    padding: 10px;
+    gap: 8px;
+  }
+  .filter-group {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+  .filter-group label {
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .filter-group select {
+    font-size: 11px;
+  }
 }
 
 /* Ultra Compact Devices (<= 360px) */
@@ -2381,6 +2557,18 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .top-actions {
     width: 100%;
     justify-content: space-between;
+    gap: 4px;
+  }
+  .target-title {
+    font-size: 11.5px;
+    max-width: 120px;
+  }
+  .tab-pane {
+    padding: 8px 8px 28px;
+  }
+  .code-container {
+    font-size: 10px;
+    padding: 8px;
   }
 }
 

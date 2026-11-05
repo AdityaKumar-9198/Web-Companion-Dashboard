@@ -1,10 +1,10 @@
 /* ==========================================================================
    Web Development Companion — Dashboard CSS
    Sky Blue (#C6FCFF) + White Palette
-   Montserrat Font, Minimal Cards, Pill Badges, Subtle Shadows
+   Inter Font, Minimal Cards, Pill Badges, Subtle Shadows
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
 /* ─── CSS VARIABLES ───────────────────────────────────────────────── */
 :root {
@@ -1138,22 +1138,21 @@ body {
 }
 
 .score-ring-container {
-  width: 104px;
-  height: 104px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
-  border: 4px solid var(--accent);
+  border: 5px solid var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
-  box-shadow: 0 0 20px rgba(20, 184, 212, 0.25);
-  background: radial-gradient(circle, #ffffff 55%, #f2fbfc 100%);
+  box-shadow: 0 0 20px rgba(20, 184, 212, 0.22);
   transition: var(--transition);
+  background: radial-gradient(circle, #ffffff 65%, #f2fbfc 100%);
   flex-shrink: 0;
 }
 
 .score-value {
-  font-family: var(--font-heading);
   font-size: 38px;
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -1162,33 +1161,28 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  user-select: none;
 }
 
 .score-label {
-  font-family: var(--font-heading);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--text-secondary);
   font-weight: 700;
-  margin-bottom: 6px;
-  display: block;
+  margin-bottom: 5px;
 }
 
 .score-description {
   font-size: 12px;
   color: var(--text-muted);
   line-height: 1.45;
-  max-width: 200px;
-  font-weight: 500;
+  max-width: 190px;
 }
 .score-description:empty {
   display: none;
 }
 .score-card:has(.score-description:empty) .score-ring-container {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 /* Severity Grid */
@@ -2365,15 +2359,17 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .target-full-url { font-size: 8.5px; }
 
   .tab-pane { padding: 10px 10px 32px; }
+  .overview-hero-quote { font-size: 17px; }
+  .overview-hero-sub { font-size: 11px; }
   .score-card { padding: 18px 12px; }
-  .score-ring-container { width: 90px; height: 90px; margin-bottom: 8px; }
+  .score-ring-container { width: 96px; height: 96px; margin-bottom: 10px; }
   .score-value { font-size: 32px; }
-  .score-label { font-size: 10px; margin-bottom: 4px; }
+  .score-label { font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
+  .score-description { font-size: 11px; max-width: 170px; }
   .severity-stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stat-box { padding: 12px 10px; }
   .stat-number { font-size: 22px; }
   .stat-title { font-size: 11px; }
-  .stat-sub { font-size: 9px; }
   .category-cards-grid { grid-template-columns: 1fr; gap: 8px; }
   .category-card { padding: 12px 14px; }
 
@@ -2403,6 +2399,8 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
 @media (max-width: 360px) {
   .topbar-left { padding: 6px 8px; gap: 6px; }
   .topbar-right { padding: 5px 8px; gap: 5px; }
+  .score-ring-container { width: 88px; height: 88px; margin-bottom: 8px; }
+  .score-value { font-size: 28px; }
   .severity-stat-grid { grid-template-columns: 1fr; }
   .topbar-mobile-logo {
     display: block;

@@ -9,7 +9,7 @@
   <title>Web Development Companion — Developer Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
 </head>
 
@@ -173,7 +173,7 @@
           <img src="../assets/logo.png" alt="Web Companion" class="topbar-mobile-logo" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='assets/logo.png';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='/assets/logo.png';}">
           <div class="page-meta">
             <h2 class="target-title" id="pageMetaTitle">Page Analysis Dashboard</h2>
-            <span class="target-full-url" id="pageMetaUrl">Ready to audit</span>
+            <span class="target-full-url" id="pageMetaUrl">Select or perform a scan to inspect findings</span>
           </div>
         </div>
 
@@ -234,9 +234,9 @@
           <!-- Health Score -->
           <div class="score-card">
             <div class="score-ring-container" id="scoreRing">
-              <span class="score-value" id="healthScoreValue">100</span>
+              <div class="score-value" id="healthScoreValue">100</div>
             </div>
-            <span class="score-label">Health Score</span>
+            <div class="score-label">Health Score</div>
             <div class="score-description" id="healthScoreDesc"></div>
           </div>
 
@@ -244,7 +244,7 @@
           <div class="severity-stat-grid">
             <div class="stat-box crit">
               <div class="stat-number" id="kpiCritical">0</div>
-              <div class="stat-title">Critical</div>
+              <div class="stat-title">Critical Issues</div>
             </div>
             <div class="stat-box high">
               <div class="stat-number" id="kpiHigh">0</div>

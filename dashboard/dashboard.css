@@ -4,7 +4,7 @@
    Inter Font, Minimal Cards, Pill Badges, Subtle Shadows
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap');
 
 /* ─── CSS VARIABLES ───────────────────────────────────────────────── */
 :root {
@@ -77,8 +77,8 @@
   --shadow-lg:  0 8px 32px rgba(10,100,140,.14);
 
   /* Type */
-  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
   /* Motion */
@@ -1138,51 +1138,47 @@ body {
 }
 
 .score-ring-container {
-  width: 110px;
-  height: 110px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   border: 5px solid var(--accent);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
-  box-shadow: 0 0 20px rgba(20, 184, 212, 0.22);
+  margin-bottom: 16px;
+  box-shadow: 0 0 18px rgba(20, 184, 212, 0.3);
   transition: var(--transition);
-  background: radial-gradient(circle, #ffffff 65%, #f2fbfc 100%);
-  flex-shrink: 0;
 }
 
 .score-value {
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 800;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   line-height: 1;
   color: var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .score-label {
-  font-size: 11px;
+  font-size: 9.5px;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-secondary);
+  letter-spacing: 0.7px;
+  color: #64748b;
+  margin-top: 3px;
   font-weight: 700;
-  margin-bottom: 5px;
 }
 
 .score-description {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.45;
-  max-width: 190px;
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.5;
+  max-width: 180px;
 }
 .score-description:empty {
   display: none;
 }
 .score-card:has(.score-description:empty) .score-ring-container {
-  margin-bottom: 6px;
+  margin-bottom: 0;
 }
 
 /* Severity Grid */
@@ -2163,99 +2159,80 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     max-height: 100vh;
   }
 
-  /* ── TOP BAR: 2-row mobile layout ────────────────────────────────── */
+  /* ── TOP BAR: responsive mobile layout ────────────────────────────── */
   .top-bar {
     position: relative;
     top: auto;
     z-index: 1;
     flex-direction: column;
     align-items: stretch;
-    padding: 0;
-    gap: 0;
+    padding: 8px 12px;
+    gap: 8px;
     min-height: auto;
   }
 
-  /* Row 1: Hamburger | Logo | Page title */
-  .topbar-left {
+  .page-meta-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border-subtle);
-    min-width: 0;
+    gap: 8px;
     width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* Show logo in top bar on mobile - larger & clear */
-  .topbar-mobile-logo {
-    display: block;
-    height: 34px;
-    width: auto;
-    max-width: 135px;
-    object-fit: contain;
-    flex-shrink: 0;
+    min-width: 0;
   }
 
   .page-meta {
     flex: 1;
     min-width: 0;
   }
+
   .target-title {
-    font-size: 12px;
+    font-size: 13px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
   }
+
   .target-full-url {
-    font-size: 9px;
+    font-size: 9.5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
   }
 
-  /* Row 2: Scan bar + Demo icon + Export icon */
-  .topbar-right {
+  .top-actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 6px;
-    padding: 7px 12px;
+    gap: 8px;
     width: 100%;
-    box-sizing: border-box;
   }
 
-  /* Scan bar fills remaining space */
+  /* Scan bar fills available space */
   .top-scan-bar {
-    flex: 1;
+    flex: 1 1 200px;
     min-width: 0;
   }
+
   .top-scan-input {
-    width: 0;
+    width: 100%;
     flex: 1;
     min-width: 0;
     font-size: 11px;
   }
-  .scan-btn-text { display: none; }
+
   .top-scan-btn {
-    padding: 5px 8px !important;
     flex-shrink: 0;
-    gap: 0 !important;
   }
 
-  /* Demo & Export — icon only */
-  .btn-label-text { display: none; }
+  .hamburger-btn {
+    flex-shrink: 0;
+  }
+
   .topbar-action-btn {
-    padding: 6px 9px;
     flex-shrink: 0;
-    gap: 0;
+    white-space: nowrap;
   }
-
-  /* ── Hide desktop-only elements on mobile ─────────────────────────── */
-  .desktop-sidebar-toggle { display: none !important; }
-  /* old .top-actions wrapper (not used in new markup but kept safe) */
-  .top-actions { display: none; }
 
   /* ── Status Banner ─────────────────────────────────────────────────── */
   #statusBanner {
@@ -2343,17 +2320,26 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .top-bar {
     position: relative;
     top: auto;
+    padding: 7px 10px;
+    gap: 6px;
   }
-  .topbar-left { padding: 8px 10px; gap: 8px; }
-  .topbar-right { padding: 6px 10px; gap: 6px; }
+  .page-meta-row { gap: 6px; }
+  .top-actions { gap: 6px; }
 
-  .topbar-mobile-logo {
-    display: block;
-    height: 30px;
-    max-width: 120px;
+  .top-scan-bar {
+    width: 100%;
+    flex: 1 1 100%;
   }
-  .hamburger-btn { padding: 6px 8px; min-width: 32px; min-height: 32px; }
-  .hamburger-btn svg { width: 17px; height: 17px; }
+
+  .hamburger-btn { padding: 5px 8px; min-width: 32px; height: 30px; }
+  .hamburger-btn svg { width: 16px; height: 16px; }
+
+  .topbar-action-btn {
+    padding: 5px 9px;
+    font-size: 11px;
+    height: 30px;
+    gap: 5px;
+  }
 
   .target-title { font-size: 12px; }
   .target-full-url { font-size: 8.5px; }
@@ -2362,14 +2348,13 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .overview-hero-quote { font-size: 17px; }
   .overview-hero-sub { font-size: 11px; }
   .score-card { padding: 18px 12px; }
-  .score-ring-container { width: 96px; height: 96px; margin-bottom: 10px; }
-  .score-value { font-size: 32px; }
-  .score-label { font-size: 10px; letter-spacing: 1px; margin-bottom: 4px; }
-  .score-description { font-size: 11px; max-width: 170px; }
+  .score-ring-container { width: 94px; height: 94px; margin-bottom: 10px; }
+  .score-value { font-size: 28px; }
   .severity-stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stat-box { padding: 12px 10px; }
   .stat-number { font-size: 22px; }
   .stat-title { font-size: 11px; }
+  .stat-sub { font-size: 9px; }
   .category-cards-grid { grid-template-columns: 1fr; gap: 8px; }
   .category-card { padding: 12px 14px; }
 
@@ -2397,16 +2382,19 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
 
 /* Ultra Compact (<= 360px) */
 @media (max-width: 360px) {
-  .topbar-left { padding: 6px 8px; gap: 6px; }
-  .topbar-right { padding: 5px 8px; gap: 5px; }
-  .score-ring-container { width: 88px; height: 88px; margin-bottom: 8px; }
-  .score-value { font-size: 28px; }
-  .severity-stat-grid { grid-template-columns: 1fr; }
-  .topbar-mobile-logo {
-    display: block;
-    height: 26px;
-    max-width: 105px;
+  .top-bar { padding: 6px 8px; gap: 5px; }
+  .top-actions { gap: 5px; }
+  .topbar-action-btn {
+    padding: 4px 7px;
+    font-size: 10.5px;
+    height: 28px;
+    gap: 4px;
   }
+  .hamburger-btn {
+    padding: 4px 6px;
+    height: 28px;
+  }
+  .severity-stat-grid { grid-template-columns: 1fr; }
   .target-title { font-size: 11px; }
   .target-full-url { font-size: 8px; }
   .tab-pane { padding: 8px 8px 28px; }

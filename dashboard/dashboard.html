@@ -20,7 +20,7 @@
 
       <!-- Brand -->
       <div class="sidebar-header">
-        <img src="../assets/logo.png" alt="Web Companion Dashboard" class="brand-full-logo">
+        <img src="../assets/logo.png" alt="Web Companion Dashboard" class="brand-full-logo" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='assets/logo.png';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='/assets/logo.png';}">
       </div>
 
       <!-- Workspace label -->
@@ -167,7 +167,7 @@
             </svg>
           </button>
           <!-- Mobile logo (hidden on desktop — logo shows in sidebar) -->
-          <img src="../assets/logo.png" alt="Web Companion" class="topbar-mobile-logo" onerror="this.style.display='none'">
+          <img src="../assets/logo.png" alt="Web Companion" class="topbar-mobile-logo" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='assets/logo.png';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='/assets/logo.png';}">
           <div class="page-meta">
             <h2 class="target-title" id="pageMetaTitle">Page Analysis Dashboard</h2>
             <span class="target-full-url" id="pageMetaUrl">Select or perform a scan to inspect findings</span>

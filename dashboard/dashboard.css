@@ -1,10 +1,10 @@
 /* ==========================================================================
    Web Development Companion — Dashboard CSS
    Sky Blue (#C6FCFF) + White Palette
-   Inter Font, Minimal Cards, Pill Badges, Subtle Shadows
+   Montserrat Font, Minimal Cards, Pill Badges, Subtle Shadows
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&display=swap');
 
 /* ─── CSS VARIABLES ───────────────────────────────────────────────── */
 :root {
@@ -77,8 +77,8 @@
   --shadow-lg:  0 8px 32px rgba(10,100,140,.14);
 
   /* Type */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
   /* Motion */
@@ -1138,47 +1138,57 @@ body {
 }
 
 .score-ring-container {
-  width: 108px;
-  height: 108px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
-  border: 5px solid var(--accent);
+  border: 4px solid var(--accent);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  box-shadow: 0 0 18px rgba(20, 184, 212, 0.3);
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(20, 184, 212, 0.25);
+  background: radial-gradient(circle, #ffffff 55%, #f2fbfc 100%);
   transition: var(--transition);
+  flex-shrink: 0;
 }
 
 .score-value {
-  font-size: 34px;
+  font-family: var(--font-heading);
+  font-size: 38px;
   font-weight: 800;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
   line-height: 1;
   color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
 }
 
 .score-label {
-  font-size: 9.5px;
+  font-family: var(--font-heading);
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
-  color: #64748b;
-  margin-top: 3px;
+  letter-spacing: 1.2px;
+  color: var(--text-secondary);
   font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
 }
 
 .score-description {
-  font-size: 12.5px;
-  color: #334155;
-  line-height: 1.5;
-  max-width: 180px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 200px;
+  font-weight: 500;
 }
 .score-description:empty {
   display: none;
 }
 .score-card:has(.score-description:empty) .score-ring-container {
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 
 /* Severity Grid */
@@ -2355,11 +2365,10 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .target-full-url { font-size: 8.5px; }
 
   .tab-pane { padding: 10px 10px 32px; }
-  .overview-hero-quote { font-size: 17px; }
-  .overview-hero-sub { font-size: 11px; }
   .score-card { padding: 18px 12px; }
-  .score-ring-container { width: 94px; height: 94px; margin-bottom: 10px; }
-  .score-value { font-size: 28px; }
+  .score-ring-container { width: 90px; height: 90px; margin-bottom: 8px; }
+  .score-value { font-size: 32px; }
+  .score-label { font-size: 10px; margin-bottom: 4px; }
   .severity-stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .stat-box { padding: 12px 10px; }
   .stat-number { font-size: 22px; }

@@ -7,6 +7,9 @@
   <meta name="theme-color" content="#1a2e1f">
   <meta name="description" content="Web Development Companion — A developer-grade page auditing dashboard for accessibility, security, performance, and code quality.">
   <title>Web Development Companion — Developer Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboard.css">
 </head>
 
@@ -170,7 +173,7 @@
           <img src="../assets/logo.png" alt="Web Companion" class="topbar-mobile-logo" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='assets/logo.png';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='/assets/logo.png';}">
           <div class="page-meta">
             <h2 class="target-title" id="pageMetaTitle">Page Analysis Dashboard</h2>
-            <span class="target-full-url" id="pageMetaUrl">Select or perform a scan to inspect findings</span>
+            <span class="target-full-url" id="pageMetaUrl">Ready to audit</span>
           </div>
         </div>
 
@@ -226,59 +229,14 @@
            ═══════════════════════════════════════════════════════════ -->
       <section id="tab-overview" class="tab-pane active" aria-labelledby="navOverview">
 
-        <!-- Overview Hero / Quote Section -->
-        <div class="overview-hero-section">
-          <h1 class="overview-hero-quote">Better web experiences start here.</h1>
-          <p class="overview-hero-sub">Automated diagnostics, accessibility standards, and code remediation — backed by real audits.</p>
-        </div>
-
-        <!-- Pipeline / Workflow Card -->
-        <div class="pipeline-card">
-          <div class="pipeline-header">
-            <span class="pipeline-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-              </svg>
-              Audit Pipeline
-            </span>
-            <span class="pipeline-badge">Evidence → Action</span>
-          </div>
-          <div class="pipeline-steps">
-            <div class="pipeline-step">
-              <span class="step-num">01</span>
-              <div class="step-info">
-                <div class="step-label">Page Scan</div>
-                <div class="step-sub">Collect raw data</div>
-              </div>
-            </div>
-            <span class="pipeline-arrow">→</span>
-            <div class="pipeline-step">
-              <span class="step-num">02</span>
-              <div class="step-info">
-                <div class="step-label">Diagnostic Analysis</div>
-                <div class="step-sub">Gap mapping</div>
-              </div>
-            </div>
-            <span class="pipeline-arrow">→</span>
-            <div class="pipeline-step active-step">
-              <span class="step-num">03</span>
-              <div class="step-info">
-                <div class="step-label">Remediation</div>
-                <div class="step-sub">Fix priority gaps</div>
-              </div>
-              <button class="next-move-btn">Next Move →</button>
-            </div>
-          </div>
-        </div>
-
         <!-- KPI Banner -->
         <div class="kpi-banner">
           <!-- Health Score -->
           <div class="score-card">
             <div class="score-ring-container" id="scoreRing">
-              <div class="score-value" id="healthScoreValue">100</div>
-              <div class="score-label">Health Score</div>
+              <span class="score-value" id="healthScoreValue">100</span>
             </div>
+            <span class="score-label">Health Score</span>
             <div class="score-description" id="healthScoreDesc"></div>
           </div>
 
@@ -286,23 +244,19 @@
           <div class="severity-stat-grid">
             <div class="stat-box crit">
               <div class="stat-number" id="kpiCritical">0</div>
-              <div class="stat-title">Critical Issues</div>
-              <div class="stat-sub">Immediate action</div>
+              <div class="stat-title">Critical</div>
             </div>
             <div class="stat-box high">
               <div class="stat-number" id="kpiHigh">0</div>
               <div class="stat-title">High Priority</div>
-              <div class="stat-sub">Major defects</div>
             </div>
             <div class="stat-box med">
               <div class="stat-number" id="kpiMedium">0</div>
               <div class="stat-title">Medium</div>
-              <div class="stat-sub">Optimisation</div>
             </div>
             <div class="stat-box low">
               <div class="stat-number" id="kpiLow">0</div>
               <div class="stat-title">Low / Info</div>
-              <div class="stat-sub">Best practices</div>
             </div>
           </div>
         </div>

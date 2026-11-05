@@ -1213,11 +1213,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if (score >= 85) {
-      healthScoreDesc.textContent = 'Excellent code health. Minor or zero defects detected.';
+      healthScoreDesc.textContent = 'Excellent — Clean & compliant';
     } else if (score >= 60) {
-      healthScoreDesc.textContent = 'Moderate defects found. Review high-priority issues.';
+      healthScoreDesc.textContent = 'Moderate — Fixes recommended';
     } else {
-      healthScoreDesc.textContent = 'High defect density. Requires urgent remediation.';
+      healthScoreDesc.textContent = 'Action Required — Remediations needed';
     }
 
     // Category Grid

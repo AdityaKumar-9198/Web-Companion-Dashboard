@@ -159,6 +159,8 @@
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
           </button>
+          <!-- Mobile logo (only shown on phone/tablet, hidden on desktop where logo is in sidebar) -->
+          <img src="../assets/logo.png" alt="Web Companion" class="topbar-mobile-logo" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='assets/logo.png';}else if(this.dataset.fb==='1'){this.dataset.fb='2';this.src='/assets/logo.png';}">
           <div class="page-meta">
             <h2 class="target-title" id="pageMetaTitle">Page Analysis Dashboard</h2>
             <span class="target-full-url" id="pageMetaUrl">Select or perform a scan to inspect findings</span>

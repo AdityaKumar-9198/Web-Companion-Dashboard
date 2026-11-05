@@ -39,17 +39,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isMobile) {
       const willOpen = typeof forceState === 'boolean' ? forceState : !sidebar.classList.contains('mobile-open');
       sidebar.classList.toggle('mobile-open', willOpen);
-      if (sidebarBackdrop) {
-        sidebarBackdrop.classList.toggle('active', willOpen);
-      }
+      if (sidebarBackdrop) sidebarBackdrop.classList.toggle('active', willOpen);
     } else {
       const willCollapse = typeof forceState === 'boolean' ? !forceState : !sidebar.classList.contains('collapsed');
       sidebar.classList.toggle('collapsed', willCollapse);
     }
   }
 
+  // Wire hamburger (mobile) + desktop toggle btn
   if (sidebarToggleBtn) {
     sidebarToggleBtn.addEventListener('click', () => toggleSidebar());
+  }
+  const desktopToggle = document.getElementById('sidebarToggleBtnDesktop');
+  if (desktopToggle) {
+    desktopToggle.addEventListener('click', () => toggleSidebar());
   }
 
   if (sidebarBackdrop) {

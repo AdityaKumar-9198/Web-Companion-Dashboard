@@ -165,7 +165,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     case Messages.OPEN_DASHBOARD:
     case 'OPEN_DASHBOARD':
-      handleOpenDashboard(payload.scanId)
+      handleOpenDashboard(payload.scanId, payload.tabId, payload.openInSameTab)
         .then(() => sendResponse({ success: true }))
         .catch(err => sendResponse({ success: false, error: err.message }));
       return true;
@@ -406,12 +406,12 @@ async function handleGetScanResults(scanId) {
 /**
  * Open the companion dashboard in a tab
  */
-async function handleOpenDashboard(scanId) {
+async function handleOpenDashboard(scanId, tabId = null, openInSameTab = false) {
   const dashboardUrl = chrome.runtime.getURL(
     scanId ? `dashboard/dashboard.html?scanId=${encodeURIComponent(scanId)}` : 'dashboard/dashboard.html'
   );
 
-  // Check if a dashboard tab is already open
+  // 1. Check if a dashboard tab is already open — reuse that same tab
   const tabs = await chrome.tabs.query({});
   const existingTab = tabs.find(t => t.url && t.url.startsWith(chrome.runtime.getURL('dashboard/dashboard.html')));
 
@@ -420,9 +420,21 @@ async function handleOpenDashboard(scanId) {
     if (existingTab.windowId) {
       await chrome.windows.update(existingTab.windowId, { focused: true });
     }
-  } else {
-    await chrome.tabs.create({ url: dashboardUrl });
+    return;
   }
+
+  // 2. If opened from popup and openInSameTab is set, open in the same tab
+  if (openInSameTab && tabId) {
+    try {
+      await chrome.tabs.update(tabId, { url: dashboardUrl });
+      return;
+    } catch {
+      // Fallback to creating a new tab if tab cannot be updated (e.g. closed)
+    }
+  }
+
+  // 3. Otherwise, create a new tab
+  await chrome.tabs.create({ url: dashboardUrl });
 }
 
 /**

@@ -1051,9 +1051,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     resetDashboardToFreshState();
   }
 
-  // On page refresh / initial load: ALWAYS start on the clean, proper new Overview dashboard
+  // Clear query parameters from URL so that when the user refreshes (F5 / reload),
+  // the dashboard always starts as a clean, brand NEW dashboard!
   if (window.history && window.history.replaceState) {
-    window.history.replaceState({ tab: 'tab-overview' }, '', window.location.pathname + (window.location.search || ''));
+    window.history.replaceState({ tab: 'tab-overview' }, '', window.location.pathname);
   }
   switchTab('tab-overview', false);
 

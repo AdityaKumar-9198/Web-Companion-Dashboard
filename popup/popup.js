@@ -107,7 +107,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Open Dashboard triggers
   const openDashboard = () => {
-    chrome.runtime.sendMessage({ action: 'OPEN_DASHBOARD', scanId: latestScanId });
+    chrome.runtime.sendMessage({
+      action: 'OPEN_DASHBOARD',
+      scanId: latestScanId,
+      tabId: currentTab ? currentTab.id : null,
+      openInSameTab: true
+    });
     window.close();
   };
 

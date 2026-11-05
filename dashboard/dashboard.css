@@ -4,7 +4,7 @@
    Inter Font, Minimal Cards, Pill Badges, Subtle Shadows
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=Montserrat:ital,wght@0,400..800;1,400..800&display=swap');
 
 /* ─── CSS VARIABLES ───────────────────────────────────────────────── */
 :root {
@@ -79,6 +79,7 @@
   /* Type */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-montserrat: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
 
   /* Motion */
@@ -137,9 +138,9 @@ body {
 
 .brand-full-logo {
   width: 100%;
-  max-width: 180px;
+  max-width: 188px;
   height: auto;
-  max-height: 58px;
+  max-height: 64px;
   object-fit: contain;
   display: block;
 }
@@ -845,26 +846,37 @@ body {
   display: none !important;
 }
 
-.page-meta { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.page-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font-family: var(--font-montserrat);
+}
 
 .target-title {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-family: var(--font-montserrat);
+  font-size: 14.5px;
+  font-weight: 700;
   letter-spacing: -0.2px;
   color: var(--text-main);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.25;
 }
 
 .target-full-url {
-  font-size: 10px;
+  font-family: var(--font-montserrat);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-muted);
-  font-family: var(--font-mono);
   display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.1px;
+  line-height: 1.25;
 }
 
 .top-actions {
@@ -2185,12 +2197,12 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     min-width: 0;
   }
 
-  /* Show logo in top bar on phone & tablet interface */
+  /* Show logo in top bar on phone & tablet interface - bigger */
   .topbar-mobile-logo {
     display: block !important;
-    height: 32px;
+    height: 38px;
     width: auto;
-    max-width: 130px;
+    max-width: 155px;
     object-fit: contain;
     flex-shrink: 0;
   }
@@ -2198,10 +2210,13 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .page-meta {
     flex: 1;
     min-width: 0;
+    font-family: var(--font-montserrat);
   }
 
   .target-title {
-    font-size: 13px;
+    font-family: var(--font-montserrat);
+    font-size: 13.5px;
+    font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2209,7 +2224,9 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   }
 
   .target-full-url {
-    font-size: 9.5px;
+    font-family: var(--font-montserrat);
+    font-size: 10px;
+    font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2342,11 +2359,11 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .page-meta-row { gap: 8px; }
   .top-actions { gap: 6px; }
 
-  /* Mobile logo on phones */
+  /* Mobile logo on phones - bigger */
   .topbar-mobile-logo {
     display: block !important;
-    height: 28px;
-    max-width: 115px;
+    height: 34px;
+    max-width: 140px;
   }
 
   .top-scan-bar {
@@ -2364,8 +2381,16 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     gap: 5px;
   }
 
-  .target-title { font-size: 12px; }
-  .target-full-url { font-size: 8.5px; }
+  .target-title {
+    font-family: var(--font-montserrat);
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+  .target-full-url {
+    font-family: var(--font-montserrat);
+    font-size: 9px;
+    font-weight: 500;
+  }
 
   .tab-pane { padding: 10px 10px 32px; }
   .overview-hero-quote { font-size: 17px; }
@@ -2447,8 +2472,8 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
   .top-actions { gap: 5px; }
   .topbar-mobile-logo {
     display: block !important;
-    height: 25px;
-    max-width: 100px;
+    height: 30px;
+    max-width: 120px;
   }
   .topbar-action-btn {
     padding: 4px 7px;
@@ -2478,8 +2503,16 @@ input:checked + .slider::before { transform: translateX(19px); background: #fff;
     margin-top: 2px;
   }
   .severity-stat-grid { grid-template-columns: 1fr; }
-  .target-title { font-size: 11px; }
-  .target-full-url { font-size: 8px; }
+  .target-title {
+    font-family: var(--font-montserrat);
+    font-size: 11.5px;
+    font-weight: 700;
+  }
+  .target-full-url {
+    font-family: var(--font-montserrat);
+    font-size: 8.5px;
+    font-weight: 500;
+  }
   .tab-pane { padding: 8px 8px 28px; }
   .code-container { font-size: 10px; padding: 8px; }
 }

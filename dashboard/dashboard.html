@@ -42,6 +42,16 @@
           Overview
         </button>
 
+        <button class="nav-item" data-tab="tab-live-page" id="navLivePage">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          Live Page View
+          <span class="nav-badge" id="navLivePageBadge">Live</span>
+        </button>
+
         <button class="nav-item" data-tab="tab-findings" id="navFindings">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -313,6 +323,83 @@
           </div>
         </div>
 
+        <!-- Live Scanned Page View / Companion Preview -->
+        <div class="card live-page-card" id="livePageCard">
+          <div class="live-page-header">
+            <div class="live-page-header-left">
+              <div class="live-page-dots" aria-hidden="true">
+                <span class="p-dot dot-red"></span>
+                <span class="p-dot dot-amber"></span>
+                <span class="p-dot dot-green"></span>
+              </div>
+              <div class="live-page-title-wrap">
+                <span class="live-page-badge" id="livePageBadge">Live Inspected Page</span>
+                <h4 class="live-page-title" id="livePageTitle">No active page</h4>
+              </div>
+            </div>
+            <div class="live-page-url-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+              <span id="livePageUrlDisplay" class="live-page-url-text" title="Active scanned URL">No page loaded</span>
+            </div>
+            <div class="live-page-actions">
+              <!-- Device responsive toggles -->
+              <div class="device-switch-group" role="group" aria-label="Device viewport preview">
+                <button type="button" id="deviceDesktopBtn" class="device-btn active" title="Desktop View (Full Width)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                  <span class="device-label">Desktop</span>
+                </button>
+                <button type="button" id="deviceTabletBtn" class="device-btn" title="Tablet View (768px)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  <span class="device-label">Tablet</span>
+                </button>
+                <button type="button" id="deviceMobileBtn" class="device-btn" title="Mobile View (375px)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  <span class="device-label">Mobile</span>
+                </button>
+              </div>
+              <button type="button" id="reloadFrameBtn" class="btn btn-secondary btn-sm" title="Reload live preview frame">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+                <span class="btn-text-sm">Reload</span>
+              </button>
+              <a id="openScannedPageExtBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="Open scanned page in a new browser tab">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Open Page &nearr;</span>
+              </a>
+              <button type="button" id="viewLivePageFullBtn" class="btn btn-primary btn-sm" title="Expand to full page inspector view">
+                <span>Full Page &rarr;</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="live-page-frame-viewport" id="livePageViewport">
+            <div id="livePageFrameContainer" class="live-frame-container desktop-mode">
+              <iframe id="livePageIframe" class="live-page-iframe" src="about:blank" title="Live Scanned Web Page" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+              
+              <div id="livePageEmptyState" class="live-page-empty-state">
+                <div class="empty-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--primary, #0a8faa)" stroke-width="1.8">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <h4>No active page currently displayed</h4>
+                <p>Scan any page via the extension popup or enter a target URL above to view the active page live right here within the dashboard.</p>
+              </div>
+
+              <div id="livePageNoticeBanner" class="live-page-notice" hidden>
+                <span>Viewing live page inside dashboard. If this website restricts iframe embedding, click </span>
+                <a id="livePageNoticeLink" href="#" target="_blank" rel="noopener noreferrer">Open Page &nearr;</a>
+                <span> to view it directly in your browser.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Category Cards -->
         <h3 class="section-title">Analysis by Technical Category</h3>
         <div class="category-cards-grid" id="categoryCardsGrid">
@@ -335,6 +422,61 @@
           </div>
         </div>
 
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           TAB: LIVE PAGE VIEW & COMPANION INSPECTOR
+           ═══════════════════════════════════════════════════════════ -->
+      <section id="tab-live-page" class="tab-pane" aria-labelledby="navLivePage">
+        <div class="full-live-page-wrapper">
+          <div class="full-live-page-topbar card">
+            <div class="full-page-meta">
+              <button type="button" id="backToOverviewBtn" class="btn btn-secondary btn-sm" title="Back to Overview">
+                &larr; Overview
+              </button>
+              <div class="full-page-title-group">
+                <h3 id="fullPageTitle" class="full-page-heading">No active page</h3>
+                <span id="fullPageUrlDisplay" class="full-page-suburl">Select or perform a scan to inspect findings</span>
+              </div>
+            </div>
+            <div class="full-page-right-controls">
+              <div class="full-page-stats">
+                <span class="full-stat-pill score" id="fullPageScorePill">Score: 100</span>
+                <span class="full-stat-pill crit" id="fullPageCritPill">0 Crit</span>
+                <span class="full-stat-pill high" id="fullPageHighPill">0 High</span>
+              </div>
+              <div class="device-switch-group">
+                <button type="button" id="fullDeviceDesktopBtn" class="device-btn active" title="Desktop View (Full Width)">Desktop</button>
+                <button type="button" id="fullDeviceTabletBtn" class="device-btn" title="Tablet View (768px)">Tablet</button>
+                <button type="button" id="fullDeviceMobileBtn" class="device-btn" title="Mobile View (375px)">Mobile</button>
+              </div>
+              <button type="button" id="fullPageReloadBtn" class="btn btn-secondary btn-sm" title="Reload Frame">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+              </button>
+              <a id="fullPageOpenExtBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" title="Open in new tab">
+                Open &nearr;
+              </a>
+            </div>
+          </div>
+
+          <div class="full-page-viewport-container" id="fullPageViewportContainer">
+            <div id="fullPageContainer" class="full-frame-inner desktop-mode">
+              <iframe id="fullPageIframe" class="full-page-iframe" src="about:blank" title="Full Scanned Web Page" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+              
+              <div id="fullPageEmptyState" class="live-page-empty-state">
+                <div class="empty-icon-wrap">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary, #0a8faa)" stroke-width="1.8">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <h4>No active page currently displayed</h4>
+                <p>Scan a web page in the extension or enter a target URL to view the live page within the companion dashboard.</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- ═══════════════════════════════════════════════════════════

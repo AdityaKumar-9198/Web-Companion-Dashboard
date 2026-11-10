@@ -1051,9 +1051,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     resetDashboardToFreshState();
   }
 
-  // On page refresh / initial load: ALWAYS start on the clean, proper new Overview dashboard
+  // Clear query parameters from URL so that when the user refreshes (F5 / reload),
+  // the dashboard always starts as a clean, brand NEW dashboard!
   if (window.history && window.history.replaceState) {
-    window.history.replaceState({ tab: 'tab-overview' }, '', window.location.pathname + (window.location.search || ''));
+    window.history.replaceState({ tab: 'tab-overview' }, '', window.location.pathname);
   }
   switchTab('tab-overview', false);
 
@@ -1152,9 +1153,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Security Checklist default
     renderSecurityChecklist({ rawData: { security: { checklist: buildDefaultChecklist() } } });
 
-    // Reset Live Page Preview
-    resetLivePagePreview();
-
     // Ensure Overview tab is active
     navItems.forEach(n => n.classList.remove('active'));
     tabPanes.forEach(p => p.classList.remove('active'));
@@ -1187,199 +1185,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Security Checklist
     renderSecurityChecklist(scan);
-
-    // Live Page Preview
-    loadLivePagePreview(scan);
-  }
-
-  // ─────────────────────────────────────────────────────────────────────────
-  // LIVE PAGE VIEW — embed the scanned page inside the dashboard
-  // ─────────────────────────────────────────────────────────────────────────
-
-  // Overview card elements
-  const livePageIframe       = document.getElementById('livePageIframe');
-  const livePageEmptyState   = document.getElementById('livePageEmptyState');
-  const livePageNoticeBanner = document.getElementById('livePageNoticeBanner');
-  const livePageNoticeLink   = document.getElementById('livePageNoticeLink');
-  const livePageUrlDisplay   = document.getElementById('livePageUrlDisplay');
-  const livePageTitle        = document.getElementById('livePageTitle');
-  const openScannedPageExtBtn = document.getElementById('openScannedPageExtBtn');
-  const viewLivePageFullBtn  = document.getElementById('viewLivePageFullBtn');
-  const reloadFrameBtn       = document.getElementById('reloadFrameBtn');
-  const deviceDesktopBtn     = document.getElementById('deviceDesktopBtn');
-  const deviceTabletBtn      = document.getElementById('deviceTabletBtn');
-  const deviceMobileBtn      = document.getElementById('deviceMobileBtn');
-  const livePageFrameContainer = document.getElementById('livePageFrameContainer');
-
-  // Full tab elements
-  const fullPageIframe        = document.getElementById('fullPageIframe');
-  const fullPageEmptyState    = document.getElementById('fullPageEmptyState');
-  const fullPageTitle         = document.getElementById('fullPageTitle');
-  const fullPageUrlDisplay    = document.getElementById('fullPageUrlDisplay');
-  const fullPageScorePill     = document.getElementById('fullPageScorePill');
-  const fullPageCritPill      = document.getElementById('fullPageCritPill');
-  const fullPageHighPill      = document.getElementById('fullPageHighPill');
-  const fullPageOpenExtBtn    = document.getElementById('fullPageOpenExtBtn');
-  const fullPageReloadBtn     = document.getElementById('fullPageReloadBtn');
-  const backToOverviewBtn     = document.getElementById('backToOverviewBtn');
-  const fullDeviceDesktopBtn  = document.getElementById('fullDeviceDesktopBtn');
-  const fullDeviceTabletBtn   = document.getElementById('fullDeviceTabletBtn');
-  const fullDeviceMobileBtn   = document.getElementById('fullDeviceMobileBtn');
-  const fullPageContainer     = document.getElementById('fullPageContainer');
-
-  /**
-   * Load a URL into both the overview card iframe and the full Live Page tab iframe.
-   */
-  function loadLivePagePreview(scan) {
-    const url = scan && scan.url;
-    const title = scan && scan.pageTitle;
-    const summary = scan && scan.summary || {};
-
-    const isValidUrl = url && (url.startsWith('http://') || url.startsWith('https://'));
-
-    // ── Overview card ──────────────────────────────────────────────────────
-    if (livePageTitle) livePageTitle.textContent = title || (isValidUrl ? url : 'No active page');
-    if (livePageUrlDisplay) livePageUrlDisplay.textContent = isValidUrl ? url : 'No page loaded';
-    if (livePageUrlDisplay) livePageUrlDisplay.title = isValidUrl ? url : '';
-    if (openScannedPageExtBtn) openScannedPageExtBtn.href = isValidUrl ? url : '#';
-
-    if (livePageIframe && livePageEmptyState) {
-      if (isValidUrl) {
-        livePageIframe.src = url;
-        livePageIframe.style.display = 'block';
-        livePageEmptyState.style.display = 'none';
-        if (livePageNoticeBanner) {
-          livePageNoticeBanner.hidden = false;
-          if (livePageNoticeLink) livePageNoticeLink.href = url;
-        }
-      } else {
-        livePageIframe.src = 'about:blank';
-        livePageIframe.style.display = 'none';
-        livePageEmptyState.style.display = 'flex';
-        if (livePageNoticeBanner) livePageNoticeBanner.hidden = true;
-      }
-    }
-
-    // ── Full tab ───────────────────────────────────────────────────────────
-    if (fullPageTitle) fullPageTitle.textContent = title || (isValidUrl ? url : 'No active page');
-    if (fullPageUrlDisplay) fullPageUrlDisplay.textContent = isValidUrl ? url : 'Select or perform a scan to inspect findings';
-    if (fullPageOpenExtBtn) fullPageOpenExtBtn.href = isValidUrl ? url : '#';
-
-    // Score pills
-    if (fullPageScorePill) fullPageScorePill.textContent = `Score: ${scan && scan.summary ? (scan.score || 100) : 100}`;
-    if (fullPageCritPill) fullPageCritPill.textContent = `${summary.critical || 0} Crit`;
-    if (fullPageHighPill) fullPageHighPill.textContent = `${summary.high || 0} High`;
-
-    if (fullPageIframe && fullPageEmptyState) {
-      if (isValidUrl) {
-        fullPageIframe.src = url;
-        fullPageIframe.style.display = 'block';
-        fullPageEmptyState.style.display = 'none';
-      } else {
-        fullPageIframe.src = 'about:blank';
-        fullPageIframe.style.display = 'none';
-        fullPageEmptyState.style.display = 'flex';
-      }
-    }
-  }
-
-  /**
-   * Reset the Live Page View on fresh dashboard state.
-   */
-  function resetLivePagePreview() {
-    if (livePageTitle) livePageTitle.textContent = 'No active page';
-    if (livePageUrlDisplay) { livePageUrlDisplay.textContent = 'No page loaded'; livePageUrlDisplay.title = ''; }
-    if (openScannedPageExtBtn) openScannedPageExtBtn.href = '#';
-    if (livePageIframe) { livePageIframe.src = 'about:blank'; livePageIframe.style.display = 'none'; }
-    if (livePageEmptyState) livePageEmptyState.style.display = 'flex';
-    if (livePageNoticeBanner) livePageNoticeBanner.hidden = true;
-
-    if (fullPageTitle) fullPageTitle.textContent = 'No active page';
-    if (fullPageUrlDisplay) fullPageUrlDisplay.textContent = 'Select or perform a scan to inspect findings';
-    if (fullPageOpenExtBtn) fullPageOpenExtBtn.href = '#';
-    if (fullPageScorePill) fullPageScorePill.textContent = 'Score: 100';
-    if (fullPageCritPill) fullPageCritPill.textContent = '0 Crit';
-    if (fullPageHighPill) fullPageHighPill.textContent = '0 High';
-    if (fullPageIframe) { fullPageIframe.src = 'about:blank'; fullPageIframe.style.display = 'none'; }
-    if (fullPageEmptyState) fullPageEmptyState.style.display = 'flex';
-  }
-
-  // ── Device viewport switcher helpers ──────────────────────────────────────
-  function setDeviceMode(container, btns, mode) {
-    if (!container) return;
-    container.classList.remove('desktop-mode', 'tablet-mode', 'mobile-mode');
-    container.classList.add(`${mode}-mode`);
-    btns.forEach(b => b && b.classList.remove('active'));
-  }
-
-  // Overview card device buttons
-  if (deviceDesktopBtn) {
-    deviceDesktopBtn.addEventListener('click', () => {
-      setDeviceMode(livePageFrameContainer, [deviceDesktopBtn, deviceTabletBtn, deviceMobileBtn], 'desktop');
-      deviceDesktopBtn.classList.add('active');
-    });
-  }
-  if (deviceTabletBtn) {
-    deviceTabletBtn.addEventListener('click', () => {
-      setDeviceMode(livePageFrameContainer, [deviceDesktopBtn, deviceTabletBtn, deviceMobileBtn], 'tablet');
-      deviceTabletBtn.classList.add('active');
-    });
-  }
-  if (deviceMobileBtn) {
-    deviceMobileBtn.addEventListener('click', () => {
-      setDeviceMode(livePageFrameContainer, [deviceDesktopBtn, deviceTabletBtn, deviceMobileBtn], 'mobile');
-      deviceMobileBtn.classList.add('active');
-    });
-  }
-
-  // Full tab device buttons
-  if (fullDeviceDesktopBtn) {
-    fullDeviceDesktopBtn.addEventListener('click', () => {
-      setDeviceMode(fullPageContainer, [fullDeviceDesktopBtn, fullDeviceTabletBtn, fullDeviceMobileBtn], 'desktop');
-      fullDeviceDesktopBtn.classList.add('active');
-    });
-  }
-  if (fullDeviceTabletBtn) {
-    fullDeviceTabletBtn.addEventListener('click', () => {
-      setDeviceMode(fullPageContainer, [fullDeviceDesktopBtn, fullDeviceTabletBtn, fullDeviceMobileBtn], 'tablet');
-      fullDeviceTabletBtn.classList.add('active');
-    });
-  }
-  if (fullDeviceMobileBtn) {
-    fullDeviceMobileBtn.addEventListener('click', () => {
-      setDeviceMode(fullPageContainer, [fullDeviceDesktopBtn, fullDeviceTabletBtn, fullDeviceMobileBtn], 'mobile');
-      fullDeviceMobileBtn.classList.add('active');
-    });
-  }
-
-  // Reload buttons
-  if (reloadFrameBtn) {
-    reloadFrameBtn.addEventListener('click', () => {
-      if (livePageIframe && livePageIframe.src && livePageIframe.src !== 'about:blank') {
-        livePageIframe.src = livePageIframe.src;
-      }
-    });
-  }
-  if (fullPageReloadBtn) {
-    fullPageReloadBtn.addEventListener('click', () => {
-      if (fullPageIframe && fullPageIframe.src && fullPageIframe.src !== 'about:blank') {
-        fullPageIframe.src = fullPageIframe.src;
-      }
-    });
-  }
-
-  // "Full Page →" button on overview card opens the Live Page tab
-  if (viewLivePageFullBtn) {
-    viewLivePageFullBtn.addEventListener('click', () => {
-      switchTab('tab-live-page');
-    });
-  }
-
-  // "← Overview" back button in full Live Page tab
-  if (backToOverviewBtn) {
-    backToOverviewBtn.addEventListener('click', () => {
-      switchTab('tab-overview');
-    });
   }
 
   /**
